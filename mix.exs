@@ -33,6 +33,8 @@ defmodule Linode.Mixfile do
       {:httpoison, "~> 0.11.2"},
       {:poison, "~> 3.1"},
 
+      {:ex_doc, "~> 0.14", only: :dev, runtime: false},
+
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
     ]
   end
