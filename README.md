@@ -11,8 +11,8 @@ I have a running list of thoughts and ideas in the [SCRATCH.md](SCRATCH.md) file
 
 ## Installation
 
-The package is not yet available in hex.
-Once it is, [available in Hex](https://hex.pm/docs/publish), the package will be able to be installed by adding `linode` to your list of dependencies in `mix.exs`:
+**The package is not yet [available in Hex](https://hex.pm/docs/publish).**
+Once it is, the package will be able to be installed by adding `linode` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
