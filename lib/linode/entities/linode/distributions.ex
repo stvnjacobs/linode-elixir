@@ -29,7 +29,7 @@ defmodule Linode.Distributions do
     url = @url <> "/" <> id
     Linode.process_show_body(url)
   end
-  
+
   @doc """
   Returns a map of details regarding the requested distribution or fails.
   """
