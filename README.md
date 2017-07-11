@@ -4,7 +4,7 @@ An [Elixir](https://elixir-lang.org/) client for the [Linode API v4](https://dev
 
 ## Warning
 
-This is stil very, very much a work in progress.
+This is still very, very much a work in progress.
 Changes in structure and methods will absolutely change.
 
 I have a running list of thoughts and ideas in the [SCRATCH.md](SCRATCH.md) file.
