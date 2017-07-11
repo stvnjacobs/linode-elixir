@@ -9,11 +9,7 @@ defmodule Linode.Distributions do
   Returns a list of maps of available distributions.
   """
   def index do
-    case Linode.get(@url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, body[:distributions]}
-      {:ok, %HTTPoison.Response{status_code: 404, body: [errors: [%{"reason" => reason}]]}} -> {:error, reason}
-      {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
-    end
+    Linode.process_index_body(@url, :distributions)
   end
 
   @doc """
@@ -30,11 +26,8 @@ defmodule Linode.Distributions do
   Returns a map of details regarding the requested distribution.
   """
   def show(id) do
-    case Linode.get(@url <> "/" <> id) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, Enum.into(body, %{})}
-      {:ok, %HTTPoison.Response{status_code: 404, body: [errors: [%{"reason" => reason}]]}} -> {:error, reason}
-      {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
-    end
+    url = @url <> "/" <> id
+    Linode.process_show_body(url)
   end
   
   @doc """

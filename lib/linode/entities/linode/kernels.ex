@@ -9,11 +9,7 @@ defmodule Linode.Kernels do
   Returns a list of maps of available kernels.
   """
   def index do
-    case Linode.get(@url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, body[:kernels]}
-      {:ok, %HTTPoison.Response{status_code: 404, body: [errors: [%{"reason" => reason}]]}} -> {:error, reason}
-      {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
-    end
+    Linode.process_index_body(@url, :kernels)
   end
 
   @doc """
@@ -30,11 +26,8 @@ defmodule Linode.Kernels do
   Returns a map of details regarding the requested kernel.
   """
   def show(id) do
-    case Linode.get(@url <> "/" <> id) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, Enum.into(body, %{})}
-      {:ok, %HTTPoison.Response{status_code: 404, body: [errors: [%{"reason" => reason}]]}} -> {:error, reason}
-      {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
-    end
+    url = @url <> "/" <> id
+    Linode.process_show_body(url)
   end
   
   @doc """
