@@ -7,31 +7,47 @@ defmodule Linode do
 
   @endpoint Application.fetch_env!(:linode, :endpoint)
   @access_token Application.fetch_env!(:linode, :access_token)
-  @user_agent Application.get_env(:linode, :user_agent, [{"User-agent", "linode-elixir"}])
+  @user_agent Application.get_env(:linode, :user_agent, "linode-elixir")
 
   @doc """
+  Adds `Authorization` string to request headers.
+
   Authorization to the Linode API is handled using OAuth2 tokens.
   Details for obtaining an access token can be found [in their documentation](https://developers.linode.com/v4/access).
   Once a token is acquired, it can be used by setting appropiate `Authorization` header.
 
   ## Examples
 
-      iex> Linode.authorization_header(%{access_token: "keep-it-like-a-secret"}, [])
+      iex> Linode.authorization_header([], %{access_token: "keep-it-like-a-secret"})
       [{"Authorization", "token keep-it-like-a-secret"}]
   """
-
-  def authorization_header(%{access_token: token}, headers) do
+  def authorization_header(headers, %{access_token: token}) do
     headers ++ [{"Authorization", "token #{token}"}]
   end
 
-  def authorization_header(_, headers), do: headers
+  @doc """
+  Adds `User-Agent` string to the request headers.
+
+  If `:user_agent` is set in your mix config for `:linode`, that user agent string is used.
+  If there is no `:user_agent` config value, `linode-elixir` is used.
+
+  ## Examples
+
+      iex> Linode.user_agent_header([], %{user_agent: "linode-elixir"})
+      [{"User-Agent", "linode-elixir"}]
+  """
+  def user_agent_header(headers, %{user_agent: user_agent}) do
+    headers ++ [{"User-Agent", user_agent}]
+  end
 
   def process_url(url) do
     @endpoint <> url
   end
 
   def process_request_headers(headers) do
-    authorization_header(%{access_token: @access_token}, headers)
+    headers
+    |> authorization_header(%{access_token: @access_token})
+    |> user_agent_header(%{user_agent: @user_agent})
   end
 
   def process_response_body(body) do
