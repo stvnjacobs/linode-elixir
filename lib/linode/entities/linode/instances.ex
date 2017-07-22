@@ -39,4 +39,40 @@ defmodule Linode.Instances do
       {:error, reason} -> raise reason
     end
   end
+
+  def boot(id) do
+    url = @url <> "/" <> id <> "/boot"
+    Linode.process_post_body(url)
+  end
+
+  def boot!(id) do
+    case Linode.Instances.boot(id) do
+      {:ok, body} -> Enum.into(body, %{})
+      {:error, reason} -> raise reason
+    end
+  end
+
+  def reboot(id) do
+    url = @url <> "/" <> id <> "/reboot"
+    Linode.process_post_body(url)
+  end
+
+  def reboot!(id) do
+    case Linode.Instances.reboot(id) do
+      {:ok, body} -> Enum.into(body, %{})
+      {:error, reason} -> raise reason
+    end
+  end
+
+  def shutdown(id) do
+    url = @url <> "/" <> id <> "/shutdown"
+    Linode.process_post_body(url)
+  end
+
+  def shutdown!(id) do
+    case Linode.Instances.shutdown(id) do
+      {:ok, body} -> Enum.into(body, %{})
+      {:error, reason} -> raise reason
+    end
+  end
 end

@@ -73,5 +73,15 @@ defmodule Linode do
       {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
     end
   end
+
+  def process_post_body(url) do
+    case Linode.post(url, Poison.encode!(%{})) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, Enum.into(body, %{})}
+      {:ok, %HTTPoison.Response{status_code: 400, body: [errors: [%{"reason" => reason}]]}} -> {:error, reason}
+      {:ok, %HTTPoison.Response{status_code: 401, body: [errors: [%{"reason" => reason}]]}} -> {:error, reason}
+      {:ok, %HTTPoison.Response{status_code: 404, body: [errors: [%{"reason" => reason}]]}} -> {:error, reason}
+      {:error, %HTTPoison.Error{reason: reason}} -> {:error, reason}
+    end
+  end
 end
 
